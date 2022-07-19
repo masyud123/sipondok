@@ -7,7 +7,17 @@ class Data_rapor extends CI_Controller
 
     public function index()
     {
-        $data['rapor'] = $this->model_rapor->tampil_data()->result();
+        $data['list_tahun'] = $this->model_rapor->tahun()->result_array();
+        // echo print_r($data['list_tahun']);
+        $data['tahun'] = $this->input->post('tahun');
+        if($data['tahun'] == ""){
+            $data['tahun'] = $data['list_tahun'][0]['tahun'];
+        }       
+
+        $where = array(
+            'tahun' => $data['tahun']
+        );
+        $data['rapor'] = $this->model_rapor->tampil_data_rapor($where)->result();
         // echo "<pre>";
         // print_r($data);
         // exit;
@@ -17,16 +27,20 @@ class Data_rapor extends CI_Controller
         $this->load->view('templates_admin/footer');
     }
 
-    public function detail_rapor($id)
+    public function detail_rapor($id, $tahun)
     {
         $rapor = $this->db->get_where('santri', array('id_santri' => $id))->row();
 
+        $where = array(
+            'history_kelas.id_santri'   => $id,
+            'rapor.tahun'       => $tahun
+        );
         $data = [
             'rapor' => $rapor,
-            'mapel' => $this->model_rapor->getMapel($id),
+            'mapel' => $this->model_rapor->getMapel1($where),
             'kelas' => $this->db->get_where('kelas', array('id_kelas' => $rapor->id_kelas))->row(),
-            'sum'   => $this->model_rapor->getSum($id),
-            'avg'   => $this->model_rapor->getAvg($id),
+            'sum'   => $this->model_rapor->getSum1($where),
+            'avg'   => $this->model_rapor->getAvg1($where),
         ];
 
         $this->load->library('pdf');

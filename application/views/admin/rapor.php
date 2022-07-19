@@ -2,6 +2,23 @@
     <h1 class="h3 mb-2 text-gray-800">Data Rapor</h1>
     <div class="card shadow mb-4">
         <div class="card-body">
+            <form action="<?= base_url('admin/data_rapor') ?>" method = "post">
+            <label for="">tahun</label>
+            <div class="d-md-flex mb-3">
+                
+                <select name="tahun" class="form-control col-md-2 " id="tahun">
+                    <?php foreach($list_tahun as $thn){ ?>
+                        <?php if($tahun == $thn['tahun']) { ?>
+                            <option value="<?= $thn['tahun'] ?>" selected><?= $thn['tahun'] ?></option>
+                        <?php } else { ?>
+                            <option value="<?= $thn['tahun'] ?>"><?= $thn['tahun'] ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm ml-2">Get</button>
+                
+            </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
@@ -21,7 +38,7 @@
                     foreach ($rapor as $rp) : ?>
                         <tr>
                             <td><?php echo $no++ ?></td>
-                            <td><?php echo $rp->nis_santri ?></td>
+                            <td><?php echo $rp->nis ?></td>
                             <td><?php echo $rp->nama_santri ?></td>
                             <td>
                                 <?php if ($rp->id_kelas == '1') {
@@ -35,7 +52,7 @@
                                 } ?>
                             </td>
                             <td align="center">
-                                <a href="data_rapor/detail_rapor/<?= $rp->id_santri ?>" class=" btn btn-primary btn-circle">
+                                <a href="data_rapor/detail_rapor/<?= $rp->id_santri ?>/<?= $rp->tahun ?>" target="_blank" class=" btn btn-primary btn-circle">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-print"></i>
                                     </span>
