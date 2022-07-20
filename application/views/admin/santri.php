@@ -9,7 +9,7 @@
     </a>
 
 
-    <!-- <?php echo $this->session->flashdata('santri');  ?> -->
+    <?=$this->session->flashdata('santri')?>
     <!-- DataTables -->
     <div class="card shadow mb-4">
 
@@ -354,10 +354,48 @@
                             </form>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="edit_kelas<?= $snt->id_santri ?>" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class=" modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Kelas</h5>
+                                </div>
+                                <form action="<?=base_url('admin/data_santri/tambah_history_kelas')?>" method="POST" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <div class="form-group d-none">
+                                            <label for="my-input">Id santri</label>
+                                            <input id="my-input" class="form-control" value="<?= $snt->id_santri ?>" type="text" name="id_santri">
+                                        </div>
+                                        <div class="form-group">
+                                            <?php $kelas = $this->db->get('kelas')->result_array();?>
+                                            <label for="my-input">Kelas</label>
+                                            <select name="id_kelas" class="form-control">
+                                                <?php foreach($kelas as $kls): ?>
+                                                    <option <?= $snt->id_kelas == $kls['id_kelas'] ? 'selected' : ''?> value="<?= $kls['id_kelas']?>"><?= $kls['nama_kelas']?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="my-input">Tahun</label>
+                                            <input id="my-input" class="form-control" type="text" name="tahun" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                     <?php endforeach ?>
+                </table>
             </div>
         </div>
-
+    </div>
 
         <!-- Hapus Santri -->
         <?php foreach ($santri as $snt) : ?>

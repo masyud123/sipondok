@@ -17,15 +17,14 @@ class data_kelas extends CI_Controller
 
     public function index()
     {
-    	
-    	$data['mapel'] = $this->model_input_rapor->tampil_data()->result();
-        $data['santri'] = $this->model_santri->tampil_data()->result();
+    	$id_guru 	= $this->session->userdata('id_user');
+		$kelas 		= $this->db->get_where('kelas', ['id_user' => $id_guru])->row();
+        $data['santri'] = $this->db->get_where('santri', ['id_kelas' => $kelas->id_kelas])->result();
+		
         $this->load->view('templates_guru/header');
         $this->load->view('templates_guru/sidebar');
         $this->load->view('guru/kelas',$data);
-        $this->load->view('templates_guru/footer');
-     //    echo "<pre>";
-   		// print_r($data);exit;
+        $this->load->view('templates_guru/footer'); 
     }
 	
     public function kelas_guru($id_kelas)

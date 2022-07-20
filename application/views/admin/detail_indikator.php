@@ -1,13 +1,15 @@
 <div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800">Mata Pelajaran</h1>
-    <a href="#" class="btn btn-sm btn-primary btn-icon-split mb-3" data-toggle="modal"
+    <a href="#" class="btn btn-sm btn-primary btn-icon-split" data-toggle="modal"
         data-target="#tambah_detail_indikator">
         <span class="icon text-white-50">
             <i class="fas fa-plus"></i>
         </span>
         <span class="text">Tambah Mata Pelajaran</span>
     </a>
-
+    <a href="<?=base_url('admin/data_indikator/')?>" class="btn btn-sm btn-warning ml-2">Kembali</a>
+    <?=$this->session->flashdata('popup_user');
+    ?>
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
@@ -51,7 +53,7 @@
                             <form action="<?php echo base_url() . 'admin/data_indikator/tambah_detail_indikator'; ?>"
                                 method="post" enctype="multipart/form-data">
 
-
+                                <input type="hidden" name="id_kelas" value="<?= $id_kelas?>">
                                 <div class="mb-6">
                                     <label for="Nama mapel" class="form-label">Nama Pelajaran</label>
                                     <input type="text" class="form-control" name="nama_mapel" required
@@ -79,16 +81,14 @@
             <?php foreach ($mapel as $mpl):?>
             <div class="modal fade" id="edit_indikator<?= $mpl->id_mapel ?>" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog">
                     <div class=" modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edit Indikator Nilai
                             </h5>
                         </div>
+                        <form action="<?php echo base_url('admin/data_indikator/update_nilai_rata/'. $mpl->id_mapel); ?>"method="post" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <form action="<?php echo base_url(). 'admin/detail_indikator/update_indikator'; ?>"
-                                method="post" enctype="multipart/form-data">
-
                                 <div class="mb-6">
                                     <label for="Nama " class="form-label">Nama Pelajaran </label>
                                     <input type="text" class="form-control" name="nama_mapel"
@@ -99,7 +99,7 @@
                                 <div class="mb-6">
                                     <label for="Nama" class="form-label">Nilai Minimal </label>
                                     <input type="text" class="form-control" name="indikator_nilai"
-                                        value="<?php echo $mpl->indikator_nilai ?>" required
+                                        value="<?php echo $mpl->nilai_ratarata ?>" required
                                         oninvalid="this.setCustomValidity('Data wajib diisi!')"
                                         oninput="setCustomValidity('')">
                                 </div>
@@ -109,7 +109,7 @@
                             <button type="submit" class="btn btn-primary">Simpan</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                         </div>
-
+                        </form>
                     </div>
                 </div>
             </div>

@@ -20,7 +20,7 @@
                             foreach($santri as $snt) : ?>
                         <tr>
                             <td><?php echo $no++ ?></td>
-                            <td><?php echo $snt->nis_santri ?></td>
+                            <td><?php echo $snt->nis ?></td>
                             <td><?php echo $snt->nama_santri?></td>
                             <td>
                                 <?php if ($snt->id_kelas == '1')

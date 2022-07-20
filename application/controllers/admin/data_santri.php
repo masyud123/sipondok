@@ -2,6 +2,11 @@
 
 class Data_santri extends CI_Controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		error_reporting(0);
+	}
 
 	public function index()
 	{
@@ -168,5 +173,39 @@ class Data_santri extends CI_Controller
 		$this->load->view('templates_admin/sidebar');
 		$this->load->view('admin/detail_santri', $data);
 		$this->load->view('templates_admin/footer');
+	}
+
+	public function tambah_history_kelas()
+	{
+		$id_santri 	= $this->input->post('id_santri');
+		$id_kelas 	= $this->input->post('id_kelas');
+		$tahun 		= $this->input->post('tahun');
+
+		$this->db->update('santri', ['id_kelas' => $id_kelas], ['id_santri' => $id_santri]);
+
+		$data = [
+			'id_santri'	=> $id_santri,
+			'id_kelas'	=> $id_kelas,
+			'tahun'		=> $tahun,
+		];
+
+		$where = [
+			'id_santri'	=> $id_santri,
+			'tahun'		=> $tahun,
+		];
+
+		$cek_history = $this->db->get_where('history_kelas', $where)->num_rows();
+		if($cek_history > 0 ){
+			$this->db->update('history_kelas', $data, $where);
+		}else{
+			$this->db->insert('history_kelas', $data);
+		}
+
+		$this->session->set_flashdata('santri', '
+			<script type="text/javascript">
+				alert("Sukses kelas santri berhasil diubah");
+			</script>
+		');
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	}
 }
